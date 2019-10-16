@@ -7,11 +7,13 @@ import * as serviceWorker from './serviceWorker';
 import { createStore, compose } from 'redux';
 
 import { IIntensityAction, baseColor } from './RGBColorPicker/SingleColorPicker'
+import {IonIntensityChange, dimensionEnum} from './components/DimensionConfigurator'
 
 export enum ActionType {
     INIT = "@@INIT",
     redux_test = "redux_test",
-    update_color_intensity = "update_color_intensity"
+    update_color_intensity = "update_color_intensity",
+    update_size_intensity = "update_size_intensity"
 }
 export interface IAction {
     type: ActionType;
@@ -23,10 +25,16 @@ interface IRGBColorPicker {
     bValue: number;
 }
 
+
+interface IRectangleConfigurator{
+    hValue: number;
+    wValue: number;
+}
 //we define the structure of the complete state
 interface IState {
     stateCounter: number;
     RGBColorPicker: IRGBColorPicker;
+    RectangleConfigurator: IRectangleConfigurator;
 }
 //we initialize the state for all the components we have in the app
 const initialState: IState = {
@@ -35,6 +43,10 @@ const initialState: IState = {
         rValue: 40,
         gValue: 100,
         bValue: 50
+    },
+    RectangleConfigurator: {
+        hValue: 25,
+        wValue: 25
     }
 };
 
@@ -64,6 +76,23 @@ const reducer = (state = initialState, action: IAction) => {
                     break;
             }
             return newState
+
+
+            case ActionType.update_size_intensity:
+                const onIntensityChange = action as IonIntensityChange
+                const size = onIntensityChange.size
+                console.log(size);
+                switch (size) {
+                    case (dimensionEnum.h):
+                        console.log("update red");
+                        newState.RectangleConfigurator.hValue = onIntensityChange.intensity;
+                        break;
+                    case (dimensionEnum.w):
+                        newState.RectangleConfigurator.wValue = onIntensityChange.intensity
+                        break;
+                    
+                }
+                return newState
         default:
             console.log("Error!!!!! no reducer defined");
             return newState;

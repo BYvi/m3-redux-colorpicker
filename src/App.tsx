@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import RGBColorPicker from './RGBColorPicker/RGBColorPicker'
+import RectangleConfigurator from './components/RectangleConfigurator'
 import {reduxState,dispatch,ActionType} from './index'
 
 interface IProps {
@@ -24,6 +25,7 @@ export default class App extends React.PureComponent<IProps, IState> {
       <p>stateCounterFromRedux:{reduxState().stateCounter}
        <button onClick={this.handleReduxTest}>Redux Test</button></p>
       <RGBColorPicker stateCounter={reduxState().stateCounter} />
+      <RectangleConfigurator stateCounter={reduxState().stateCounter} />
 
 
     </div>
